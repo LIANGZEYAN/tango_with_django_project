@@ -7,6 +7,9 @@ from rango.forms import PageForm
 from django.urls import reverse
 from rango.forms import UserForm, UserProfileForm
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 
 def index(request):
     # Query the database for a list of ALL categories currently stored.
@@ -87,6 +90,7 @@ def add_category(request):
     # Render the form with error messages (if any).
     return render(request, 'rango/add_category.html', {'form': form})
 
+@login_required
 def add_page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
